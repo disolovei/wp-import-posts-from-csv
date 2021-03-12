@@ -17,7 +17,7 @@
 			return td;
 		},
 		buildRow: function( rowData ) {
-			if ( ! Array.isArray( rowData ) || rowData.length < 3 ) {
+			if ( ! Array.isArray( rowData ) || rowData.length < 2 ) {
 				return;
 			}
 
@@ -28,7 +28,8 @@
 			const tr = document.createElement('tr');
 			tr.classList.add('no');
 
-			const [postTitle, , relatedPostID] = rowData;
+			const [postTitle, ...other] = rowData;
+			const relatedPostID = !!rowData[2] ? rowData[2] : '-';
 			const postType = !!rowData[3] ? rowData[3] : 'post';
 
 			tr.appendChild(this.buildCell(postTitle));
@@ -223,7 +224,8 @@
 
 			try {
 				const row = GSTP.data.shift();
-				const [postTitle, postContent, relatedPostID] = row;
+				const [postTitle, postContent] = row;
+				const relatedPostID = !!row[2] ? row[2] : 0;
 				const postType = !!row[3] ? row[3] : 'post';
 
 				const blogSelect = document.getElementById('merge-via-blog');
